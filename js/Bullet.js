@@ -1,0 +1,39 @@
+class Bullet{
+  constructor(src,imgX,imgY,width,height,speed){
+    this.src=src;
+    this.imgX=imgX;
+    this.imgY=imgY;
+    this.width=width/5.4;
+    this.height=this.width*1.9;
+    this.imgX=this.imgX+width/2-this.width/2;
+    this.imgY=this.imgY-this.height;
+    this.speed=speed;
+    this.initBullet(src);
+    this.state=0;
+  }
+  initBullet(src){
+    this.img=new Image();
+    this.img.src=src;
+  }
+  logic(){
+    this.imgY-=this.speed;
+  }
+  draw(paint){
+    paint.drawImage(this.img,this.imgX,this.imgY,this.width,this.height);
+  }
+  collision(enemy) {
+    if(enemy.state==0){
+      if(this.imgX+this.width/2>=enemy.img.imgX&&this.imgX+this.width/2<=enemy.img.imgX+enemy.img.width&&this.imgY<=enemy.img.imgY+enemy.img.height){
+        this.state=1;
+        enemy.hp--;
+        if(enemy.hp==0){
+          enemy.state=1;
+        }
+      }
+    }
+  }
+  run(paint){
+    this.logic()
+    this.draw(paint);
+  }
+}
